@@ -2,11 +2,44 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.1.0'
 	id 'io.spring.dependency-management' version '1.1.0'
+
+	id "com.github.node-gradle.node" version "3.0.1"	//node
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
+
+println "### project.projectDir: ${project.projectDir}"
+
+/*
+ * vue-project를 build하기 위한 설정
+ * - node gradle plugin의 node 설정 추가
+ */
+node {
+	//특정 Node.js 버전을 다운로드 및 설치 할 지 여부
+	download = true
+	version = "17.7.1"
+
+	yarnVersion = "1.22.19"
+	distBaseUrl = "https://nodejs.org/dist"
+
+	/**
+	 * npmInstall 작업에 의해 실행되는 npm 명령
+	 * 기본적으로 설치되지만 ci로 변경할 수 있음
+	 */
+	/*npmInstallCommand = "install"*/
+
+	//Node.js가 압축 해제된 디렉토리
+	workDir = file("${project.projectDir}/.gradle/nodejs")
+	//yarn가 압축 해제된 디렉토리
+	yarnWorkDir = file("${project.projectDir}/.gradle/yarn")
+
+	//vue 프로젝트 디렉토리 위치
+	nodeProjectDir = file("${project.projectDir}/healthcare-frontend")
+
+	nodeProxySettings = ProxySettings.SMART
+}
 
 configurations {
 	compileOnly {
@@ -29,6 +62,54 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.26'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.0.4'
 }
+
+/**
+ * vue-project를 build하기 위한 설정
+ * - node gradle 추가
+ */
+apply plugin: 'com.github.node-gradle.node'
+
+/**
+ * vue-project를 build하기 위한 설정
+ * - vue-project의 기존 빌드 결과물을 제거하기 위한 task
+ */
+task deleteVueBuildFiles(type: Delete) {
+	delete "src/main/resources/static/static", "src/main/resources/static/index.html", "${project.projectDir}/healthcare-frontend/node_modules"
+}
+
+task yarnInstall(type: YarnTask)
+/**
+ * vue-project를 build하기 위한 설정
+ * - vue-project를 빌드하기 위한 yarn build task
+ *
+ * dependsOn에 'deleteVueBuildFiles', 'yarnInstall' task 정보를 지정하였으므로
+ * yarnBuild task는 위 두 task에 의존한다는 것이고,
+ * yarnBuild가 실행되기 전 위 두 task가 차례대로 먼저 실행됩니다.
+ * deleteVueBuildFiles task는 빌드 결과물을 제거하기 위하여 별도 만든 task이고,
+ * yarnInstall task는 node plugin에서 제공하는 task입니다.
+ */
+
+
+task yarnBuild(type: YarnTask, dependsOn: ['deleteVueBuildFiles', 'yarnInstall']) {
+	args = ["build"]
+}
+
+/**
+ * vue-project를 build하기 위한 설정
+ * node gradle에서 제공하는 yarnInstall task를 어느 시점에 실행시켜 줄지 지정해주는 것입니다.
+ * "gradle build 시 수행되는 processResources task가 실행되기 전에 yarnBuild task를 실행하라"
+ *
+ * 그리고 yarnBuild task의 의존으로 deleteVueBuildFiles, yarnInstall task가 있으므로,
+ * "yarnBuild task가 실행하기 전에 deleteVueBuildFiles, yarnInstall task를 순서대로 실행하라."
+ *
+ * 정리한 task 실행 순서는
+ * 1) deleteVueBuildFiles
+ * 2) yarnInstall
+ * 3) yarnBuild
+ * 4) processResources
+ * 입니다.
+ */
+processResources.dependsOn 'yarnBuild'
 
 tasks.named('test') {
 	useJUnitPlatform()
