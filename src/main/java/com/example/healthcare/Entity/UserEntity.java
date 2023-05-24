@@ -37,7 +37,7 @@ public class UserEntity {
     private String userHeight;
 
     @Column
-    private String userPhoneNum;
+    private String userPhonenum;
 
     @Column
     private String userAuthority;
@@ -56,7 +56,7 @@ public class UserEntity {
         userEntity.setUserAddr(userDTO.getUserAddr());
         userEntity.setUserWeight(userDTO.getUserWeight());
         userEntity.setUserHeight(userDTO.getUserHeight());
-        userEntity.setUserPhoneNum(userDTO.getUserPhoneNum());
+        userEntity.setUserPhonenum(userDTO.getUserPhonenum());
         userEntity.setUserAuthority(userDTO.getUserAuthority());
         userEntity.setUserAge(userDTO.getUserAge());
         userEntity.setUserSex(userDTO.getUserSex());
@@ -73,7 +73,7 @@ public class UserEntity {
         userEntity.setUserAddr(userDTO.getUserAddr());
         userEntity.setUserWeight(userDTO.getUserWeight());
         userEntity.setUserHeight(userDTO.getUserHeight());
-        userEntity.setUserPhoneNum(userDTO.getUserPhoneNum());
+        userEntity.setUserPhonenum(userDTO.getUserPhonenum());
         userEntity.setUserAuthority(userDTO.getUserAuthority());
         userEntity.setUserAge(userDTO.getUserAge());
         userEntity.setUserSex(userDTO.getUserSex());

@@ -16,7 +16,7 @@ public class UserDTO {
     private String userAddr;
     private String userWeight;
     private String userHeight;
-    private String userPhoneNum;
+    private String userPhonenum;
     private String userAuthority;
     private String userAge;
     private String userSex;
@@ -30,7 +30,7 @@ public class UserDTO {
         userDTO.setUserAddr(userEntity.getUserAddr());
         userDTO.setUserWeight(userEntity.getUserWeight());
         userDTO.setUserHeight(userEntity.getUserHeight());
-        userDTO.setUserPhoneNum(userEntity.getUserPhoneNum());
+        userDTO.setUserPhonenum(userEntity.getUserPhonenum());
         userDTO.setUserAuthority(userEntity.getUserAuthority());
         userDTO.setUserAge(userEntity.getUserAge());
         userDTO.setUserSex(userEntity.getUserSex());
