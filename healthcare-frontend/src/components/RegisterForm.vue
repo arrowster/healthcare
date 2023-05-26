@@ -64,6 +64,7 @@
 
 <script>
 import axios from "axios";
+import router from "@/router";
 
 export default {
   name: "RegisterForm",
@@ -91,7 +92,10 @@ export default {
       console.log({...this.registerInfo})
       axios.post('/user/save', { ...this.registerInfo }).then((res) => {
         console.log("register완료")
-        window.location.href = '/';
+        console.log(res)
+        router.push({
+          path: '/'
+        });
       });
     }
   }

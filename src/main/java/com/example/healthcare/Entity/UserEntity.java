@@ -12,11 +12,10 @@ import com.example.healthcare.DTO.UserDTO;
 public class UserEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
     @Column(unique=true)
-
     private String userEmail;
 
     @Column
@@ -24,7 +23,6 @@ public class UserEntity {
     private String userName;
 
     @Column
-
     private String userPwd;
 
     @Column
@@ -48,8 +46,8 @@ public class UserEntity {
     @Column
     private String userSex;
 
-    public static UserEntity toUserEntity(UserDTO userDTO){
-        UserEntity userEntity =new UserEntity();
+    public static UserEntity toUserEntity(UserDTO userDTO) {
+        UserEntity userEntity = new UserEntity();
         userEntity.setUserEmail(userDTO.getUserEmail());
         userEntity.setUserName(userDTO.getUserName());
         userEntity.setUserPwd(userDTO.getUserPwd());
@@ -64,8 +62,8 @@ public class UserEntity {
         return userEntity;
     }
 
-    public static UserEntity toUpdateEntity(UserDTO userDTO){
-        UserEntity userEntity =new UserEntity();
+    public static UserEntity toUpdateEntity(UserDTO userDTO) {
+        UserEntity userEntity = new UserEntity();
         userEntity.setUserId(userDTO.getUserId());
         userEntity.setUserEmail(userDTO.getUserEmail());
         userEntity.setUserName(userDTO.getUserName());

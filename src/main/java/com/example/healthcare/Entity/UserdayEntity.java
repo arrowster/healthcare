@@ -12,7 +12,7 @@ import com.example.healthcare.DTO.UserdayDTO;
 public class UserdayEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userdayId;
 
     @Column

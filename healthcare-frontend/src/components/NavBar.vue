@@ -5,14 +5,17 @@
         <v-icon icon="mdi-book-music"/> HealthCare
       </router-link>
     </v-app-bar-title>
-    <form id="navForm">
+    <span class="mr-2" v-if="flag">
+			Logged in as {{ username }} | <span @click="logout">logout</span>
+		</span>
+    <form id="navForm" v-else>
       <v-text-field
-        v-model="user.id"
+        v-model="user.userEmail"
         label="ID"
         required
       />
       <v-text-field
-        v-model="user.pwd"
+        v-model="user.userPwd"
         type="password"
         label="Password"
         required
@@ -25,37 +28,45 @@
 
 <script>
 import axios from "axios";
+import router from "@/router";
 
 export default {
   name: "NavBar",
-  data: function () {
+  data:  () => {
     return {
       user: { //todo: 칼럼 명 맞춰야함
-        id: "",
-        pwd: ""
-      }
+        userEmail: "",
+        userPwd: ""
+      },
+      username: "",
+      flag: false
     }
   },
   methods: {
     login() {
-      //todo: id, password 값 넘기기
-      //todo: res custom, admin 판단
       console.log("login btn 클릭")
       console.log({...this.user})
       axios.post('/user/login', { ...this.user }).then((res) => {
-        //todo: sdf
-        if (res.data === 1){  //admin
-          window.location.href = '/';
+        const userType = res.data.userType;
+        const userInfo = res.data.userInfo;
+        console.log(res.data)
+        if (userType === "admin"){  //admin
+          router.push({
+            path: '/admin'
+          })
         }
-        else {  //nomalUser
-          window.location.href = '/admin';
+        else {  //normalUser
+          this.flag = !(this.flag)
         }
+      }).catch(()=>{
+        alert("ID 혹은 PassWord가 올바르지 않습니다.")
       })
     },
     logout() {
-      this.user.id = ""
-      this.user.password = ""
+      this.user.userEmail = ""
+      this.user.userPwd = ""
       alert('logout 성공')
+      window.location.href = '/'
     },
   }
 }

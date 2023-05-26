@@ -13,7 +13,7 @@ import com.example.healthcare.DTO.FoodDTO;
 public class FoodEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long foodId;
 
     @Column

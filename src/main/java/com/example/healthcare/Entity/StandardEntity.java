@@ -12,7 +12,7 @@ import com.example.healthcare.DTO.StandardDTO;
 public class StandardEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long standardId;
 
     @Column

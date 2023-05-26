@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping("/user/save")
-    public ResponseEntity save(@RequestBody UserDTO userDTO){   //state code
+    public ResponseEntity save(@RequestBody UserDTO userDTO) {   //state code
         System.out.println("UserController.save");
         System.out.println("userDTO ="+ userDTO);
         userService.save(userDTO);
@@ -36,29 +38,36 @@ public class UserController {
     }
 
     @PostMapping("/user/login")
-    public  String login(@ModelAttribute UserDTO userDTO,HttpSession session){
-        UserDTO loginResult=userService.login(userDTO);
-        if(loginResult != null){
-            //로그인 성공
+    public ResponseEntity login(@RequestBody UserDTO userDTO, HttpSession session) {
+        UserDTO loginResult = userService.login(userDTO);
+        if (loginResult != null) {
             session.setAttribute("loginEmail",loginResult.getUserId());
-            if(loginResult.getUserAuthority().equals("1")){
-                return "admin";
-            }
-            else{
-                return "customer";
+            if (loginResult.getUserAuthority().equals("1")) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("userType", "admin");
+                response.put("userInfo", loginResult);
+                return ResponseEntity.ok().body(response);
+                //return ResponseEntity.ok().body("admin");
+            } else {
+                return ResponseEntity.ok().body(loginResult);
             }
             //UserDTO의 userAuthority 값이 0일 때 일반 사용자
             //UserDTO의 userAuthority 값이 1일 때 관리자 계정
         } else {
             // login 실패
-            return "login";
+            return ResponseEntity.status(404).body(404);//"login";
         }
     }
+
     @GetMapping("/user/logout")
     public String logout(HttpSession session) {
-        session.invalidate();
+        if (session != null) {
+            session.invalidate();
+        }
         return "index";
     }
+
+
 
     @GetMapping("/user/")
     public String findAll(Model model){

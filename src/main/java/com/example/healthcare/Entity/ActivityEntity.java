@@ -12,7 +12,7 @@ import com.example.healthcare.DTO.ActivityDTO;
 public class ActivityEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long activityId;
 
     @Column
