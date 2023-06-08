@@ -1,12 +1,20 @@
 <template>
-  <HelloWorld />
+  <v-container class="">
+    <v-row>
+      <TodayHealthInfo />
+    </v-row>
+    <v-row>
+      <DrawGraph />
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-  import HelloWorld from '@/components/HelloWorld.vue'
+  import TodayHealthInfo from "@/components/TodayHealthInfo";
+  import DrawGraph from "@/components/DrawGraph";
   export default {
     components: {
-      HelloWorld
+      TodayHealthInfo, DrawGraph
     },
     name: "Home",
   }

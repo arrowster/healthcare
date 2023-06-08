@@ -8,9 +8,9 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 
 @Configuration
 public class WebConfig implements  WebMvcConfigurer{
-    private String resourcePath = "/upload/**"; // view 에서 접근할 경로
+    private String resourcePath = "/images/**"; // view 에서 접근할 경로
 
-    private String savePath = "C:/Users/kjy98/project/storage/"; // 실제 파일 저장 경로(mac)
+    private String savePath = "classpath:/static/images/"; // 실제 파일 저장 경로(mac)
 
     @Bean
     public StandardServletMultipartResolver multipartResolver() {

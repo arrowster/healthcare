@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container row">
       <v-card class="file-upload-container mt-4"
           @dragenter="onDragenter"
           @dragover="onDragover"
@@ -20,7 +20,7 @@
       </div>
     </div>
     <!-- 파일 변환 보내기 -->
-    <div class="file-upload-list__item__btn-convert">
+    <div class="file-upload-list__item__btn-convert mt-04">
       <v-btn block elevation="4" @click="uploadFile()">Submit</v-btn>
     </div>
   </div>
@@ -109,6 +109,7 @@ export default {
       }).then(res => {
         // 데이터 처리
         console.log(res.data);
+
       })
     }
   }
@@ -120,8 +121,8 @@ export default {
   background-color: #F7E0D3;
 }
 .container {
-  min-height: 300px;
-  width: 500px;
+  min-height: 150px;
+  width: 300px;
   margin: 0 auto;
 }
 .file-upload {
@@ -179,7 +180,7 @@ export default {
         border-radius: 6px;
       }
       &__btn-convert {
-        width: 500px;
+        width: 300px;
         color: black;
         cursor: pointer;
         border : none;

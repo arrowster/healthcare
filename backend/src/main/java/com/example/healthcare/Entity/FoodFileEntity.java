@@ -19,6 +19,8 @@ public class FoodFileEntity {
     @Column
     String storedFileName;
 
+    private String filePath;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="food_id")
     private FoodEntity foodEntity;

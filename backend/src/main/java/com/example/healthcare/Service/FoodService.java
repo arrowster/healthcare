@@ -2,23 +2,38 @@ package com.example.healthcare.Service;
 
 import com.example.healthcare.DTO.FoodDTO;
 import com.example.healthcare.Entity.FoodEntity;
+import com.example.healthcare.Entity.FoodFileEntity;
+import com.example.healthcare.Repository.FoodFileRepository;
 import com.example.healthcare.Repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import com.example.healthcare.Entity.FoodFileEntity;
-import com.example.healthcare.Repository.FoodFileRepository;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-import java.io.File;
-import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 public class FoodService {
     private final FoodRepository foodRepository;
     private final FoodFileRepository foodFileRepository;
+
+    public List<String> findByStoredFileName() throws IOException{
+        List<FoodFileEntity> foodPhotos = foodFileRepository.findByStoredFileNameIsNotNull();
+        List<String> foodPath = new ArrayList<>();
+
+        for (FoodFileEntity foodPhoto : foodPhotos) {
+            String storedFileName = foodPhoto.getStoredFileName();
+            String filePath = "C:/Users/kjy98/project/storage/" + storedFileName;
+            foodPhoto.setFilePath(filePath);
+            foodPath.add(foodPhoto.getFilePath());
+        }
+        return foodPath;
+    }
+
     public void save(FoodDTO foodDTO) throws  IOException{
         //파일 첨부 여부에 따라 로직 분리
         if(foodDTO.getFoodFile().isEmpty()) {
@@ -30,7 +45,7 @@ public class FoodService {
             MultipartFile foodFile = foodDTO.getFoodFile();
             String originalFileName = foodFile.getOriginalFilename();
             String storedFileName = System.currentTimeMillis() + "_" +originalFileName;
-            String savePath = "C:/Users/kjy98/project/storage/" + storedFileName;
+            String savePath = "C:/Users/kjy98/project/storage/" + storedFileName;   //C:/Users/kjy98/project/storage/
             try {
                 foodFile.transferTo(new File(savePath));
             } catch (IOException e){

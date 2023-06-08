@@ -16,7 +16,7 @@ public class Basic_Metabolic_Calculator_Service {
             return 88.4 + (13.4 * weight) + (4.8 * height) - (5.68 * old);
         }
     }
-    public double MiffinStJeor_calc(boolean sex, double weight, double height, int old){
+    public double miffinStJeor_calc(boolean sex, double weight, double height, int old){
         double result = (9.99 * weight) + (6.25 * height) - (4.95 * old);
         if (sex){   //여성이면
             result -= 161;
@@ -38,7 +38,7 @@ public class Basic_Metabolic_Calculator_Service {
         if (usedCalc){  //헤리스 베네딕트 공식 이용
             return harrisBenedict_calc(sex, weight, height, old) * checkExercise(exercise);
         } else {    // 미플린 지어 공식 이용
-            return MiffinStJeor_calc(sex, weight, height, old) * checkExercise(exercise);
+            return miffinStJeor_calc(sex, weight, height, old) * checkExercise(exercise);
         }
     }
 }

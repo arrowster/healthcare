@@ -2,8 +2,11 @@
   <v-container>
     <v-card>
       <span>나의 기초 대사량</span>
+      <span>{${ basicMetabolic }}</span>
       <span>오늘 운동량</span>
+      <span>{${ toDayExercise }}</span>
       <span>남은 칼로리</span>
+      <span>{${ leftMetabolic }}</span>
     </v-card>
   </v-container>
 </template>
@@ -14,9 +17,9 @@ export default {
   data: () => {
     return {
       myHealthInfo: {
-        basic_metabolic: "",
-        toDay_exercise: "",
-        left_metabolic: ""
+        basicMetabolic: "",
+        toDayExercise: "",
+        leftMetabolic: ""
       },
     }
   },
