@@ -1,10 +1,12 @@
 <template>
   <v-container class="">
     <v-row>
-      <TodayHealthInfo />
-    </v-row>
-    <v-row>
-      <DrawGraph />
+      <div>
+        <TodayHealthInfo />
+      </div>
+      <v-col>
+        <DrawGraph />
+      </v-col>
     </v-row>
   </v-container>
 </template>
