@@ -1,33 +1,45 @@
 <template>
   <v-container>
     <div>test graph</div>
-    <Bar
-      id="my-chart-id"
-      :options="chartOptions"
-      :data="chartData"
-    />
+    <Line :data="data" :options="options"/>
   </v-container>
 </template>
 
 <script>
-import { Bar } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import axios from 'axios'
+import { Line } from 'vue-chartjs'
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 export default {
   name: 'DrawGraph',
-  components: { Bar },
+  components: { Line },
   data() {
     return {
-      chartData: {
-        labels: [ 'January', 'February', 'March' ],
-        datasets: [ { data: [40, 20, 12] } ]
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: '남은 칼로리',
+          backgroundColor: '#f87979',
+          data: [40, 39, -10, 40, 39, 80, 40]
+        }]
       },
-      chartOptions: {
-        responsive: true
+      options: {
+        responsive: true,
+        maintainAspectRatio: true
       }
     }
+  },
+  methods: {
+    getHealthInfo() {
+      axios.get('/food/photo').then(res => {
+        this.imagePaths = res.data
+        this.getImage(this.imagePaths)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
   }
 }
 </script>

@@ -2,15 +2,15 @@
     <v-card class="v-card pd-4">
       <v-card class="childCard">
         <span>나의 기초 대사량</span><br>
-        <span>{{ myHealthInfo.basicMetabolic }}</span>
+        <span>{{ myHealthInfo.basicMetabolic }} kcal</span>
       </v-card>
       <v-card class="childCard">
         <span>오늘 운동량</span><br>
-        <span>{{ myHealthInfo.toDayExercise }}</span>
+        <span>{{ myHealthInfo.toDayExercise }} kcal</span>
       </v-card>
       <v-card class="childCard">
         <span>남은 칼로리</span><br>
-        <span>{{ myHealthInfo.leftMetabolic }}</span>
+        <span>{{ myHealthInfo.leftMetabolic }} kcal</span>
       </v-card>
     </v-card>
 </template>
@@ -21,9 +21,9 @@ export default {
   data: () => {
     return {
       myHealthInfo: {
-        basicMetabolic: "testBasic",
-        toDayExercise: "testExer",
-        leftMetabolic: "testMetabolic"
+        basicMetabolic: "2067",
+        toDayExercise: "4",
+        leftMetabolic: "2063"
       },
     }
   },
